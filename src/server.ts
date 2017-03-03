@@ -29,11 +29,13 @@ enableProdMode();
 
 const app = express();
 const ROOT = path.join(path.resolve(__dirname, '..'));
-
+import { SeoService } from './services/seo.service';
+import {  Renderer } from '@angular/core';
 // Express View
 app.engine('.html', createEngine({
   ngModule: MainModule,
   providers: [
+    SeoService, Renderer
     // use only if you have shared state between users
     // { provide: 'LRU', useFactory: () => new LRU(10) }
 

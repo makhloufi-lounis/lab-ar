@@ -7,6 +7,7 @@ import { HomeModule } from './+home/home.module';
 /*import { TodoModule } from './+todo/todo.module';*/
 
 import { SeoService } from '../services/seo.service';
+import { ApiService } from '../services/api.service';
 import { Title }    from '@angular/platform-browser';
 import { MetaService } from 'ng2-meta';
 import { Meta } from '../angular2-meta';
@@ -19,7 +20,7 @@ import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [ AppComponent, XLargeDirective],
-  providers: [SeoService, Title, MetaService, Meta ],
+  providers: [SeoService, ApiService, Title, MetaService, Meta ],
   imports: [
     SharedModule,
     HomeModule,
