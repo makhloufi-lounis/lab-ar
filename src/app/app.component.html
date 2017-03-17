@@ -1,0 +1,307 @@
+<!-- Header : logo, mega-banner -->
+<div id="extra" class="hidden-xs">
+    <ul>
+        <li class="suivez">Suivez-nous :</li>
+        <li class="pic">&nbsp;<img id="follow_fb" src="{{ this._config.dns_placedescommerces }}/fr/css/images/facebook-icon.gif" alt="facebook icon" width="16" height="16" style="cursor:pointer;" /></li>
+        <li class="pic">&nbsp;<img id="follow_twitter" src="{{ this._config.dns_placedescommerces }}/images/twitter-bird-white-on-blue.gif" width="16" height="16" style="cursor: pointer;" /></li>
+        <li class="pic">
+            <div>
+                <a title="Rejoignez Place des commerces sur Google+" href="//plus.google.com/+Placedescommerces_Achat_Vente_Commerces" rel="publisher" target="_top" style="text-decoration:none;">
+                    <img src="{{ this._config.dns_placedescommerces }}/fr/css/bouton/gplus-16.png" alt="Place des Commerces - Achat & vente de commerces" style="border:0;width:16px;height:16px;" />
+                </a>
+            </div>
+        </li>
+        <li class="pic">
+            <div>
+                <a title="Rejoignez Place des commerces sur Viadeo" href="http://www.viadeo.com/fr/profile/place.des-commerces" rel="publisher" target="_top" style="text-decoration:none;">
+                    <img src="{{ this._config.dns_placedescommerces }}/fr/css/bouton/viadeo.png" alt="Place des Commerces - Achat & vente de commerces" style="border:0;width:16px;height:16px;" />
+                </a>
+            </div>
+        </li>
+
+        <li><a title="FUSACQ - Achat &amp; vente d'entreprises" href="{{ this._config.dns_fusacq }}">FUSACQ - Achat &amp; vente d'entreprises</a></li>
+        <li>&#124;</li>
+        <li><a title="Place des Franchises - Entreprendre en réseau" href="{{ this._config.dns_placedesfranchises }}">Place des Franchises - Entreprendre en réseau</a></li>
+    </ul>
+</div>
+<div id="header" class="hidden-xs">
+    <div id="logo">
+        <table class="nocell">
+            <tr>
+                <td class="align-right">
+                    <a href="/" class="lien_accueil" title="Place des Commerces"><img src="{{ this._config.dns_placedescommerces }}/images/v4_site.jpg" alt="Place des Commerces" title="Place des Commerces" width="216" height="74" class="noborder" /></a>
+                </td>
+            </tr>
+            <tr>
+                <td class="align-right"><span style="text-align:right;line-height: 10px;font-size: 10px;">Achat &amp; vente de commerces<br/> et locaux commerciaux</span></td>
+            </tr>
+        </table>
+    </div>
+    <!-- FIN logo -->
+    <div id="f71dbe52628a3f83a77ab494817525c6">
+        <!--<megabanner></megabanner>-->
+        <div id='4A2BE78608B85DABA4216E0B9362B770' style='height:90px; width:728px;'>
+
+        </div>
+    </div>
+</div>
+<!-- FIN Header -->
+
+<!-- Navigation : menu, sous-menu -->
+<div id="menu" class="hidden-xs">
+    <ul>
+        <li [class]="this._settings.tabPage == 'accueil' ? 'home' : ''">
+            <a href="/" class="lien_accueil" title="Place des commerces">Accueil</a>
+        </li>
+        <li [class]="this._settings.tabPage == 'vendrecommerce' ? 'home' : ''">
+            <a href="/vente_commerce.html" title="Vendre un commerce">Vendre un commerce</a>
+        </li>
+        <li [class]="this._settings.tabPage == 'depot' ? 'home' : ''">
+            <a title="D&eacute;poser une annonce gratuite" [href]="this._isAuth ? '/gestion/annonce.html': '/deposer_annonce.html'">D&eacute;poser une annonce</a>
+        </li>
+        <li [class]="this._settings.tabPage == 'annuairerepreneur' ? 'home' : ''">
+            <a href="/annuaire-repreneur.html" title="Trouver un repreneur">Trouver un repreneur</a>
+        </li>
+        <li>
+            <a href="{{ this._config.dns_fusacq }}/annuaire_prestataires" title="Trouver un expert" target="_blank" rel="nofollow">Trouver un expert</a>
+        </li>
+
+        <li [class]="this._settings.tabPage == 'compte' ? 'home' : ''">
+            <a href="/gestion/compte.html" title="Votre compte" rel="nofollow">Votre compte</a>
+        </li>
+    </ul>
+</div>
+<!--///Debut navigation Mobile -->
+<div id="menu-mobile" class="hidden-sm hidden-md hidden-lg">
+    <div class="logo-mobile center-block text-center" style="width:100%;background-color:#fff;">
+        <a href="/" alt="Place des Commerces" title="Place des Commerces">
+            <img src="{{ this._config.dns_placedescommerces }}/images/v4_site.jpg" alt="Place des Commerces" title="Place des Commerces" width="216" height="74" class="noborder img-responsive center-block ">
+        </a>
+        <div style="font-size: 11px;padding-bottom:3px;">Achat &amp; vente de commerces et locaux commerciaux</div>
+    </div>
+    <div id='9DA8F332A94A91B3F4B57F968984713D' style="background-color: #fff;padding-top: 10px;padding-bottom: 10px" class="text-center">
+        <script type='text/javascript'>
+            googletag.cmd.push(function() {
+                googletag.display('9DA8F332A94A91B3F4B57F968984713D');
+            });
+        </script>
+    </div>
+    <nav class="navbar navbar-default ">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/" style="text-decoration: none"><i class="fa fa-home fa-lg"></i></a>
+                <div id="nb_annonces_direct_mobile" class="hidden-sm hidden-md hidden-lg">
+                    <!--<?php
+          				$annonces_publiques=new Model_DbTable_AnnoncesPubliques ();
+          				$nb_annonces_publiques=$annonces_publiques->getNumberAnnoncesPubliquesFromRechercheAvancee($parametres);
+          				$t_today=$annonces_publiques->donneParametresAnnoncesDeposeesToday();
+          				?>-->
+                    <span class="orange_24_bold" style="font-size:20px;"><?php echo Pdc_String::formater_nombre($nb_annonces_publiques,' '); ?></span>
+                    <span class="gris_18">annonce<?php if($nb_annonces_publiques>1) echo 's'; ?></span>
+                    <!--<?php
+							echo '<br /><span style="font-size:11px;">dont <a href="/dernieres_annonces_commerces_a_vendre.html"  style="color:#F60;"><span class="orange_12">'.number_format((int)$t_today ["nb"],0,'',' ').'</span></a> déposée';
+							if($t_today ["nb"]>1) echo 's';
+							echo ' '.$t_today ["date"].'</span>';
+						?>-->
+                </div>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+                <ul class="nav navbar-nav">
+                    <li [class]="this._settings.tabPage == 'vendrecommerce' ? 'home' : ''">
+                        <a href="/vente_commerce.html" title="Vendre un commerce">Vendre un commerce</a>
+                    </li>
+                    <li [class]="this._settings.tabPage == 'depot' ? 'home' : ''">
+                        <a title="D&eacute;poser une annonce gratuite" [href]="this._isAuth ? '/gestion/annonce.html': '/deposer_annonce.html'">D&eacute;poser une annonce</a>
+                    </li>
+                    <li>
+                        <a href="{{ this._config.dns_fusacq }}/annuaire_prestataires" title="Trouver un expert" target="_blank" rel="nofollow">Trouver un expert</a>
+                    </li>
+                    <li>
+                        <a href="/formation-a-la-reprise-de-commerce" title="Trouver un expert">Formations</a>
+                    </li>
+                    <li style="background: url('{{ this._config.dns_placedescommerces }}/images/lienHover_jaune.png');background-size:cover;">
+                        <a href="{{ this._config.dns_placedescommerces }}/analyse_bail_commercial" title="Trouver un expert" rel="nofollow">
+                            Analyser votre bail
+                        </a>
+                    </li>
+                    <li [class]="this._settings.tabPage == 'compte' ? 'home' : ''">
+                        <a href="/gestion/compte.html" title="Votre compte" rel="nofollow">Votre compte</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</div>
+<!--///Fin navigation Mobile -->
+<!--sous-menu-->
+<div id="sousmenu" class="hidden-xs">
+    <div class="date_jour align-center" id="date_affice">
+
+    </div>
+    <div>
+        <ul>
+            <li><a title="Formation ï¿½ la reprise de commerce" href="/formation-a-la-reprise-de-commerce">Formations</a></li>
+            <li>&#124;</li>
+            <li><a title="Presse &amp; Salons" href="/presse" rel="nofollow">Presse &amp; Salons</a></li>
+            <li>&#124;</li>
+            <li><a href="/documentation.html" title="Documentation" rel="nofollow">Documentation</a></li>
+            <li>&#124;</li>
+            <li><a href="{{ this._config.dns_fusacq }}.com" title="Reprendre une entreprise" target="_blank">Reprendre une entreprise</a></li>
+            <li>&#124;</li>
+            <li><a href="{{ this._config.dns_placedesfranchises }}" title="Créer en franchise" target="_blank">Créer en franchise</a></li>
+        </ul>
+    </div>
+</div>
+<!-- Fin sous-menu -->
+<!-- FIN Navigation -->
+
+<!-- GLOBAL -->
+<div id="global">
+    <div id="page">
+        <!--<?php if($this->is_selection) echo '_selection'; ?>-->
+        <!-- MENU GAUCHE -->
+        <!-- FIN MENU GAUCHE -->
+
+        <!-- CONTENU CENTRAL -->
+        <div id="content" role="main">
+
+
+            <div class="container_titre" style='font: normal 90% "Trebuchet MS", Verdana, Helvetica, Sans-Serif; text-align: center; margin-top: 30px; color:#0d3750;'>
+                <h2 style="font-size:22px;"> Trouvez un repreneur pour votre affaire</h2>
+            </div>
+
+            <div class="hidden-xs">
+                <div style="clear:both;"><br /><br /></div>
+                <div class="line_bleu_repeat"></div>
+            </div>
+            <!-- BLOC SEARCH ANNUAIRE REPRENEUR -->
+            <div id="bloc_search_index" style="margin-top: 60px; margin-bottom: 50px; margin-left: 50px;">
+                <form id="form_search" method="GET" action="resultats.html" style="width: 350px">
+
+                    <table class="table table-striped" cellpadding="2" id="table_input_secteur">
+                        <tr>
+                            <td colspan="2" style="font-size:11px;color:#ff6600;" align="left">Indiquez vos crit&egrave;res de recherche :
+                                <div style="float:right;"><a href="#" id="lien_reinitialiser">R&eacute;initialiser</a></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="intitule">Activité (s) :</td>
+                            <td><input id="secteur" type="text" name="secteur" value=""></td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-striped" cellpadding="2" id="table_localisation" style="margin-top:5px;">
+                        <tr>
+                            <td class="intitule">Localisation (s) :</td>
+                            <td id="td_localisation"><input id="localisation" type="text" name="lieu" value=""></td>
+                        </tr>
+                    </table>
+
+
+                    <div class="bouton_resultats"><a id="submit_form_search" href="#">Afficher les r&eacute;sultats</a></div>
+
+                </form>
+            </div>
+            <!-- FIN BLOC SEARCH ANNUAIRE REPRENEUR -->
+
+            <!-- BLOC NOMBRE REPREUNEUR ET CARTE FRANCE -->
+            <div id="bloc_carte_index" class="hidden-xs" style="margin-top: 30px; margin-bottom: 50px; margin-right: 50px;">
+                <div id="nb_annonces_direct">
+                    <span class="orange_24_bold">2 000</span>
+                    <!--<?php echo Pdc_String::formater_nombre($this->nb_annonces,' '); ?>-->
+                    <span class="gris_18">repreneurs</span>
+                    <!--<?php if($this->nb_annonces>1) echo 's'; ?>-->
+                    <!--<?php
+                        if($this->show_nb_annonces_today){-->
+
+                    <!--echo '--><br />
+                    <span style="font-size:11px;">dont 
+                        <a href=""  style="color:#F60;"> <!--href="/dernieres_annonces_commerces_a_vendre.html-->
+                                <span class="orange_12">100</span>
+                    <!--'.number_format((int)$this->nb_annonces_today,0,'',' ').'-->
+                    </a> déposées
+                    <!--déposée';
+                                        if($this->nb_annonces_today>1) echo 's';
+                                        echo ' '.$this->date_nb_today.'</span>';
+                                                } ?>-->
+                    </span>
+                </div>
+                <div id="carte_france">
+                    <div id="Layer0" style="position:absolute; z-index:1">
+                        <img src="{{ this._config.dns_placedescommerces }}/images/carte/fond_carte.png" alt="" name="FOND" width="300" height="243" border="0">
+                    </div>
+
+                    <div id="Layer1" style="position:absolute; z-index:2">
+                        <img id="carte_france_recherche" class="eclaircie" src="{{ this._config.dns_placedescommerces }}/images/carte/fond_transp.png" alt="" name="FOND" width="300" height="243" border="0" usemap="#FONDMap">
+                    </div>
+                </div>
+            </div>
+            <!-- FIN BLOC NOMBRE REPREUNEUR ET CARTE FRANCE -->
+            <div class="hidden-xs">
+                <div style="clear:both;"><br /><br /></div>
+                <div class="line_bleu_repeat"></div>
+            </div>
+        </div>
+        <!-- Fin CONTENU CENTRAL -->
+        <!-- FOOTER -->
+        <div id="footer" class="hidden-xs">
+            <div class="column1" style="padding-left:15px;">
+
+            </div>
+
+        </div>
+        <!-- FIN FOOTER -->
+        <!-- FOOTER MENU-->
+        <div id="footer-menu" class="bs-docs-footer-links text-muted">
+            <ul style="color:#666">
+                <li>&copy; {{this._today | date:'y'}} - Place des Commerces</li>
+                <li>&#124;</li>
+                <li>
+                    <a style="color:#666" href="{{ this._config.dns_placedescommerces }}/formation-a-la-reprise-de-commerce" title="Formation à la reprise de commerce" target="_blank" rel="nofollow">Formations</a>
+                </li>
+                <li>&#124;</li>
+                <li><a style="color:#666" href="{{ this._config.dns_placedescommerces }}/contactez_nous.html" title="Contactez-nous" rel="nofollow">Contactez-nous</a></li>
+                <li>&#124;</li>
+                <li><a style="color:#666" href="{{ this._config.dns_placedescommerces }}/presse/partenaires" title="Nos partenaires" rel="nofollow">Partenaires</a></li>
+                <li>&#124;</li>
+                <li><a style="color:#666" href="{{ this._config.dns_placedescommerces }}/conditions_generales_utilisation.html" title="&Agrave; propos" rel="nofollow">CGU</a></li>
+                <li>&#124;</li>
+                <li><a style="color:#666" title="Supervised by Heatmap" href="http://heatmap.me">Supervised by Heatmap</a></li>
+            </ul>
+        </div>
+        <!-- FIN FOOTER MENU-->
+    </div>
+
+    <button (click)="clicked()">Click</button>
+
+    <form #f="ngForm" (ngSubmit)="addTodo()">
+        <input name="newTodo" [(ngModel)]="newValue">
+        <button>Submit</button>
+    </form>
+
+    <div class="table">
+        <div class="row header">
+            <div class="cell">Id</div>
+            <div class="cell">Created at</div>
+            <div class="cell">Value</div>
+            <div class="cell">Completed</div>
+        </div>
+        <div class="row" *ngFor="let todo of todos">
+            <div class="cell">{{todo.id}}</div>
+            <div class="cell">{{todo.created_at | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
+            <div class="cell">{{todo.value}}</div>
+            <div class="cell">{{todo.completed}}</div>
+        </div>
+    </div>
+
+    <!-- FIN GLOBAL -->
+    <main>
+        <router-outlet></router-outlet>
+    </main>

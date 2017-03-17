@@ -21,15 +21,96 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="publisher" href="https://plus.google.com/+Placedescommerces_Achat_Vente_Commerces" />
 
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-1099043-6']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <script type='text/javascript' charset="utf-8">
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+        (function() {
+            var gads = document.createElement('script');
+            gads.async = true;
+            gads.type = 'text/javascript';
+            var useSSL = 'https:' == document.location.protocol;
+            gads.src = (useSSL ? 'https:' : 'http:') +
+                '//www.googletagservices.com/tag/js/gpt.js';
+            var node = document.getElementsByTagName('script')[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+    </script>
+    <script type='text/javascript' charset="utf-8">
+        googletag.cmd.push(function() {
+            if (window.innerWidth > 728) {
+                googletag.defineSlot('/122043898/PDC_mega_banner_general', [728, 90], '4A2BE78608B85DABA4216E0B9362B770').addService(googletag.pubads());
+            } else {
+                googletag.defineSlot('/122043898/PDC_mega_banner_general', [320, 50], '9DA8F332A94A91B3F4B57F968984713D').addService(googletag.pubads());
+            }
+            googletag.pubads().enableSingleRequest();
+
+            googletag.enableServices();
+        });
+    </script>
+    <style type="text/css">
+        .title_layoute {
+            color: #0d3750;
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            padding-left: 20px;
+            padding-right: 20px;
+            box-sizing: content-box;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+
 </head>
 
 <body>
+    <script type="text/javascript">
+        if (!(window.canRunAds === undefined)) {
+            $('#f71dbe52628a3f83a77ab494817525c6').empty();
+        }
+        googletag.cmd.push(function() {
+            googletag.display('4A2BE78608B85DABA4216E0B9362B770');
+        });
+        if ((window.canRunAds === undefined)) {
+            $('#4A2BE78608B85DABA4216E0B9362B770').remove();
+        }
+    </script>
 
     <app>
         Loading ...
     </app>
 
-    <script async src="/main.bundle.js"></script>
+    <script type='text/javascript'>
+        var date = new Date(),
+            options = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            };
+        var today = date.toLocaleDateString("fr", options);
+        var firstChar = today.substring(0, 1);
+        firstChar = firstChar.toUpperCase();
+        var tail = today.substring(1);
+        today = firstChar + tail
+        $('#date_affice').html(today);
+    </script>
+    <script async src="/annuaire-repreneur.html/main.bundle.js"></script>
+    <script src="/annuaire-repreneur.html/node_modules/zone.js/dist/zone.js"></script>
 </body>
 
 </html>

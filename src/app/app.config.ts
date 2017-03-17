@@ -1,5 +1,5 @@
 
-export class Configuration{
+export class AppConfiguration{
     private static ENVIRONMENT = "local";
     
     private _dns_placedescommerces : string = "";

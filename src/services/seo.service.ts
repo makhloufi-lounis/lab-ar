@@ -13,12 +13,6 @@ import {DomAdapter, getDOM} from '@angular/platform-browser/src/dom/dom_adapter'
 import { DOCUMENT } from '@angular/platform-browser';
 
 
-import { Room } from './../model/room.model';
-import { ApiService } from './api.service';
-
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/retry';
-
 export interface MetaDefinition {
   charset?: string;
   content?: string;
@@ -37,14 +31,36 @@ export interface LinkDefinition {
   href?: string;
 }
 
+export interface ScriptDefinition {
+  type?: string;
+  src?: string;
+}
+
 
 @Injectable()
 export class SeoService {
   
   private _dom: DomAdapter = getDOM();
 
-  constructor(@Inject(DOCUMENT) private _document: any, private apiService : ApiService) {
+  constructor(@Inject(DOCUMENT) private _document: any) {
   }
+
+  /**
+   * Adds a new script tag to the dom.
+   * Example
+   * const script: ScriptDefinition = {type: 'text/javascript' , src: 'url to js'};
+   * this.seoService.addTagsScript([script]);
+   * 
+   * @param tags
+   * @returns {HTMLScriptElement[]}
+   */
+  public addTagsScript(...tags: Array<ScriptDefinition|ScriptDefinition[]>): void {
+    const presentTags = this._flattenArray(tags);
+    if (presentTags.length !== 0){ 
+      presentTags.map((tag: ScriptDefinition) => this._addTagScript(tag));
+    }
+  }
+
   /**
    * Adds a new link tag to the dom.
    * Example
@@ -196,7 +212,12 @@ export class SeoService {
   }
 
 
-
+ private _addTagScript(tag : ScriptDefinition): HTMLScriptElement {
+     const script: HTMLScriptElement = this._createScriptElement();
+     this._prepareScriptElement(tag, script);
+     this._appendScriptElement(script);
+     return script;
+  }
 
   private _addTagLink(tag : LinkDefinition): HTMLLinkElement {
      const link: HTMLLinkElement = this._createLinkElement();
@@ -212,12 +233,21 @@ export class SeoService {
     return meta;
   }
 
+  private _createScriptElement(): HTMLScriptElement {
+    return this._dom.createElement('script') as HTMLScriptElement;
+  }
+
   private _createLinkElement(): HTMLLinkElement {
     return this._dom.createElement('link') as HTMLLinkElement;
   }
 
   private _createMetaElement(): HTMLMetaElement {
     return this._dom.createElement('meta') as HTMLMetaElement;
+  }
+
+  private _prepareScriptElement(tag: ScriptDefinition, el: HTMLScriptElement): HTMLScriptElement {
+    Object.keys(tag).forEach((prop: string) => this._dom.setAttribute(el, prop, tag[prop]));
+    return el;
   }
 
   private _prepareLinkElement(tag: LinkDefinition, el: HTMLLinkElement): HTMLLinkElement {
@@ -230,6 +260,12 @@ export class SeoService {
     return el;
   }
 
+  private _appendScriptElement(script: HTMLScriptElement): void {
+    //const head = this._dom.getElementsByTagName(this._dom.defaultDoc(), 'head')[0];
+    const head = this._document.head;
+    this._dom.appendChild(head, script);
+  }
+
   private _appendLinkElement(link: HTMLLinkElement): void {
     //const head = this._dom.getElementsByTagName(this._dom.defaultDoc(), 'head')[0];
     const head = this._document.head;
@@ -240,6 +276,11 @@ export class SeoService {
     //const head = this._dom.getElementsByTagName(this._dom.defaultDoc(), 'head')[0];
     const head = this._document.head;
     this._dom.appendChild(head, meta);
+  }
+
+  private _removeScriptElement(script: HTMLScriptElement): void {
+    const head = this._dom.parentElement(script);
+    this._dom.removeChild(head, script);
   }
 
   private _removeLinkElement(link: HTMLLinkElement): void {
@@ -266,8 +307,5 @@ export class SeoService {
     return out;
   }
 
-  /*getTopFive() : Observable<Room[]>{
-        //let rooms : Array<Room> = this.apiService.getRooms();
-        return this.apiService.getRooms();
-  }*/
+  
 }

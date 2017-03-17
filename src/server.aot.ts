@@ -96,7 +96,7 @@ function ngApp(req, res) {
       preboot: false,
       baseUrl: '/',
       requestUrl: req.originalUrl,
-      originUrl: `http://localhost:${ app.get('port') }`
+      originUrl: `http://lounis.placedescommerces.com:${ app.get('port') }`
     });
   });
 
@@ -121,5 +121,5 @@ app.get('*', function(req, res) {
 
 // Server
 let server = app.listen(app.get('port'), () => {
-  console.log(`Listening on: http://localhost:${server.address().port}`);
+  console.log(`Listening on: http://lounis.placedescommerces.com:${server.address().port}`);
 });

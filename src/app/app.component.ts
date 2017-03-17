@@ -1,12 +1,20 @@
 import { Component, Directive, ElementRef, Renderer, ChangeDetectionStrategy, ViewEncapsulation, AfterViewInit, Inject } from '@angular/core';
-import { SeoService } from '../services/seo.service';
-import { MetaDefinition } from '../services/seo.service';
-import { LinkDefinition } from '../services/seo.service';
+import { SeoService, MetaDefinition, LinkDefinition, ScriptDefinition } from '../services/seo.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { LocalisationsService } from '../services/localisations.service';
+import { ApiService } from '../services/api.service';
 import { MetaService } from 'ng2-meta';
 import { Meta } from '../angular2-meta';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Room } from '../model/room.model';
-import { Configuration } from './app.config';
+import { AppSettings } from './app.settings';
+import { CONFIG } from '../config/local';
+import { Utilisateur } from '../model/utilisateur.model';
+
+
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieBackendService } from 'angular2-cookie/services/cookies.backend.service';
+
 //
 /////////////////////////
 // ** Example Directive
@@ -28,133 +36,157 @@ export class XLargeDirective {
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
   encapsulation: ViewEncapsulation.Emulated,
+ 
   selector: 'app',
-  template: `
-  <!-- Header : logo, mega-banner -->
-        <div id="extra" class="hidden-xs">
-            <ul>
-                <li class="suivez">Suivez-nous :</li>
-                <li class="pic">&nbsp;<img id="follow_fb" src="{{ this._config.dnsPlacedescommerces }}/fr/css/images/facebook-icon.gif" alt="facebook icon" width="16" height="16" style="cursor:pointer;"/></li>
-                <li class="pic">&nbsp;<img id="follow_twitter"
-                                           src="{{ this._config.dnsPlacedescommerces }}/images/twitter-bird-white-on-blue.gif"
-                                           width="16" height="16" style="cursor: pointer;" /></li>
-                <li class="pic"><div><a title="Rejoignez Place des commerces sur Google+" href="//plus.google.com/+Placedescommerces_Achat_Vente_Commerces"
-                                        rel="publisher" target="_top" style="text-decoration:none;">
-                            <img src="{{ this._config.dnsPlacedescommerces }}/fr/css/bouton/gplus-16.png" alt="Place des Commerces - Achat & vente de commerces" style="border:0;width:16px;height:16px;"/>
-                        </a></div></li>
-                <li class="pic"><div><a title="Rejoignez Place des commerces sur Viadeo" href="http://www.viadeo.com/fr/profile/place.des-commerces"
-                                        rel="publisher" target="_top" style="text-decoration:none;">
-                            <img src="{{ this._config.dnsPlacedescommerces }}/fr/css/bouton/viadeo.png" alt="Place des Commerces - Achat & vente de commerces" style="border:0;width:16px;height:16px;"/>
-                        </a></div></li>
-
-                <li><a title="FUSACQ - Achat &amp; vente d'entreprises" href="{{ this._config.dnsFusacq }}" >FUSACQ - Achat &amp; vente d'entreprises</a></li>
-                <li>&#124;</li>
-                <li><a title="Place des Franchises - Entreprendre en réseau" href="{{ this._config.dnsPlacedesfranchises }}" >Place des Franchises - Entreprendre en réseau</a></li>
-            </ul>
-        </div>
-       <div id="header" class="hidden-xs">
-            <div id="logo">
-                <table class="nocell"><tr>
-                        <td class="align-right">
-                            <a href="/"  class="lien_accueil" title="Place des Commerces"><img src="{{ this._config.dnsPlacedescommerces }}/images/v4_site.jpg" alt="Place des Commerces" title="Place des Commerces" width="216" height="74" class="noborder"/></a></td></tr>
-                    <tr>
-                        <td class="align-right"><span style="text-align:right;line-height: 10px;font-size: 10px;">Achat &amp; vente de commerces<br/> et locaux commerciaux</span></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- FIN logo -->
-            <div id="f71dbe52628a3f83a77ab494817525c6">
-                   <!--<megabanner></megabanner>-->
-                   <script type="text/javascript">
-			                    if( ! (window.canRunAds === undefined) ){
-				                       $('#f71dbe52628a3f83a77ab494817525c6').empty();
-			                     }
-			             </script>
-				           <div id='4A2BE78608B85DABA4216E0B9362B770' style='height:90px; width:728px;'>
-			 	                 <script type='text/javascript'>
-				                     googletag.cmd.push(function() { googletag.display('4A2BE78608B85DABA4216E0B9362B770'); });
-			                   </script>
-				           </div> 
-				           <script type="text/javascript">
-			        	       if( (window.canRunAds === undefined) ){
-				            	       $('#4A2BE78608B85DABA4216E0B9362B770').remove();
-				                }
-				          </script>
-            </div>
-        </div>
-        <!-- FIN Header -->
-        
-      <main>
-        <router-outlet></router-outlet>
-      </main>
-  `
+  styleUrls: [ './app.component.css' ],
+  templateUrl: './app.component.html',
 })
 export class AppComponent /*implements AfterViewInit*/{
  
     rooms : Array<Room> = []  ;
-    private static META_DESC:                 MetaDefinition = {};
-    private static META_KEYWORDS:             MetaDefinition = {};
-    private static META_ROBOTS:               MetaDefinition = {};
+    private static META_DESC:                         MetaDefinition = {};
+    private static META_KEYWORDS:                     MetaDefinition = {};
+    private static META_ROBOTS:                       MetaDefinition = {};
 
-    private static LINK_PREV:                 LinkDefinition = {};
-    private static LINK_NEXT:                 LinkDefinition = {};
-    private static LINK_STYLE:                LinkDefinition = {};
-    private static LINK_BOOSTRAP_VALIDATOR:   LinkDefinition = {};
-    private static LINK_BOOSTRAP_MIN:         LinkDefinition = {};
+    private static LINK_PREV:                         LinkDefinition = {};
+    private static LINK_NEXT:                         LinkDefinition = {};
+    private static LINK_STYLE:                        LinkDefinition = {};
+    private static LINK_BOOSTRAP_VALIDATOR:           LinkDefinition = {};
+    private static LINK_BOOSTRAP_MIN:                 LinkDefinition = {};
 
-    private _seoService : SeoService;
-    private _config : Configuration;
+    private static SCRIPT_JQUERY_GOOGLE_1_7_0_MIN:    ScriptDefinition = {};
+    private static SCRIPT_COOKIE:                     ScriptDefinition = {};
+    private static SCRIPT_HEATMAP:                    ScriptDefinition = {};
+    private static SCRIPT_BOOSTRAP_MIN:               ScriptDefinition = {};
+    private static SCRIPT_BOOSTRAP_VALIDATOR:         ScriptDefinition = {};
+    private static SCRIPT_JQUERY_BULLE_PDC:           ScriptDefinition = {};
+    
+    private _seoService :                             SeoService;
+    private _authenticationService:                   AuthenticationService;
+    private _localisationService:                      LocalisationsService;
+    private _settings :                               AppSettings;
+    
+    private _isAuth :                                 boolean = false;
+    private _utilisateur:                             Utilisateur ;
+    private _errorMessage:                            string;    
+    private _config:                                  any ;
 
-    constructor(seoService: SeoService) {
+    private _today:                                   number;
+
+    private _t_regions:                               any;                   
+    
+    private _cookieService:                           CookieService;
+
+    mode = 'Observable';
+    constructor(seoService: SeoService, authenticationService: AuthenticationService, apiService : ApiService, localisationsService : LocalisationsService, cookieService : CookieService) {
+        this._config = CONFIG;
        this._seoService = seoService;
-       // Initialization of the project environment
-       this._config = new Configuration("local");
+       this._authenticationService = authenticationService;
+       this._localisationService = localisationsService;
+       // Initialization of the project environment       
+       this._settings = new AppSettings();
+       this._utilisateur = new Utilisateur();
+       this._today = Date.now();
+       this._cookieService = cookieService;
+
     }
 
-    ngOnInit():void{
 
-      if(this._config.metaDescription === ""){
+    ngOnInit():void{
+      this._settings.tabPage ='annuairerepreneur';
+
+      if(this._settings.metaDescription === ""){
           AppComponent.META_DESC = {name: 'description', content: 'Achat et vente de commerces, locaux commerciaux et petites entreprises'};
       }else{
-          AppComponent.META_DESC = {name: 'description', content: this._config.metaDescription};
+          AppComponent.META_DESC = {name: 'description', content: this._settings.metaDescription};
       }
 
-      if(this._config.metaKeywords === ""){
+      if(this._settings.metaKeywords === ""){
           AppComponent.META_KEYWORDS = {name: 'keywords', content: 'place des commerces, PDC'};
       }else{
-          AppComponent.META_KEYWORDS = {name: 'keywords', content: this._config.metaDescription};
+          AppComponent.META_KEYWORDS = {name: 'keywords', content: this._settings.metaDescription};
       }
 
-      if(this._config.metaRobots === ""){
+      if(this._settings.metaRobots === ""){
           AppComponent.META_ROBOTS = {name: 'robots', content: 'noindex,follow'};
       }else{
-          AppComponent.META_ROBOTS = {name: 'robots', content: this._config.metaRobots};
+          AppComponent.META_ROBOTS = {name: 'robots', content: this._settings.metaRobots};
       }
       
       this._seoService.addTagsMeta([AppComponent.META_DESC, AppComponent.META_KEYWORDS, AppComponent.META_ROBOTS ]) ;
 
-      if(this._config.linkPrev !== ""){
-          AppComponent.LINK_PREV = {rel: 'prev' , href: this._config.linkPrev};
+      if(this._settings.linkPrev !== ""){
+          AppComponent.LINK_PREV = {rel: 'prev' , href: this._settings.linkPrev};
       }
-      if(this._config.linkNext !== ""){
-          AppComponent.LINK_NEXT = {rel: 'next' , href: this._config.linkNext};
+      if(this._settings.linkNext !== ""){
+          AppComponent.LINK_NEXT = {rel: 'next' , href: this._settings.linkNext};
       }
       
-      AppComponent.LINK_STYLE = {rel: 'stylesheet' , href: this._config.dnsPlacedescommerces+'/css/style.css'};
-      AppComponent.LINK_BOOSTRAP_VALIDATOR = {rel: 'stylesheet' , href: this._config.dnsPlacedescommerces+'/javascript/bootstrap-validator/bootstrapValidator.min.css'};
-      AppComponent.LINK_BOOSTRAP_MIN = {rel: 'stylesheet' , href: this._config.dnsPlacedescommerces+'/javascript/bootstrap3/css/bootstrap.min.css'};
+
+      AppComponent.LINK_STYLE = {rel: 'stylesheet' , href: this._config.dns_placedescommerces+'/css/style.css'};
+      AppComponent.LINK_BOOSTRAP_VALIDATOR = {rel: 'stylesheet' , href: this._config.dns_placedescommerces+'/javascript/bootstrap-validator/bootstrapValidator.min.css'};
+      AppComponent.LINK_BOOSTRAP_MIN = {rel: 'stylesheet' , href: this._config.dns_placedescommerces+'/javascript/bootstrap3/css/bootstrap.min.css'};
       
       this._seoService.addTagsLink([AppComponent.LINK_PREV, AppComponent.LINK_NEXT, AppComponent.LINK_STYLE, AppComponent.LINK_BOOSTRAP_VALIDATOR, AppComponent.LINK_BOOSTRAP_MIN]);
 
+      AppComponent.SCRIPT_JQUERY_GOOGLE_1_7_0_MIN = {type:'text/javascript', src:this._config.dns_placedescommerces+'/javascript/jquery/jquery-google.1.7.0.min.js'}  
+      AppComponent.SCRIPT_COOKIE = {type:'text/javascript', src:this._config.dns_placedescommerces+'/javascript/cookie.js'}  
+      AppComponent.SCRIPT_HEATMAP = {type:'text/javascript', src:this._config.dns_placedescommerces+'/javascript/heatmap.js'}
+      AppComponent.SCRIPT_BOOSTRAP_MIN = {type:'text/javascript', src:this._config.dns_placedescommerces+'/javascript/bootstrap3/js/bootstrap.min.js'}
+      AppComponent.SCRIPT_BOOSTRAP_VALIDATOR = {type:'text/javascript', src:this._config.dns_placedescommerces+'/javascript/bootstrap-validator/bootstrapValidator.js'}
+      AppComponent.SCRIPT_JQUERY_BULLE_PDC = {type:'text/javascript', src:this._config.dns_fusacq+'/javascript/bulles/jquery.bulle_pdc.js'}  
+    
+
+      this._seoService.addTagsScript([AppComponent.SCRIPT_JQUERY_GOOGLE_1_7_0_MIN, 
+                                          AppComponent.SCRIPT_COOKIE, 
+                                          AppComponent.SCRIPT_HEATMAP, 
+                                          AppComponent.SCRIPT_BOOSTRAP_MIN,
+                                          AppComponent.SCRIPT_BOOSTRAP_VALIDATOR, 
+                                          AppComponent.SCRIPT_JQUERY_BULLE_PDC
+                                      ]);
+     
+    
+     
+     this.isAuthenticated(this._config.dns_placedescommerces);
+     
+     this._localisationService.initialize(this._config.root_url_ws);
+
+     this.getRegionsFrance();
+
+      // console.log( this._cookieService.get('PHPSESSID'));
+     //console.log('Cookies: ', cookieParser('lounis.placedescommerces.com'));
+     //console.log(Zone.current.get('req').cookies);
+    // this.getCookie('lounis.placedescommerces.com') ;
       //this.roomService.getTopFive().subscribe(rooms => this.rooms)
         /* console.log("teste");
          this.seoService.getTopFive().subscribe(
-             r => this.rooms = r
+             r => th(is.rooms = r
          );
 
         console.log(this.rooms);*/
     }
 
+    isAuthenticated(baseUrl) {
+        this._authenticationService.isAuth(baseUrl)
+                         .retry(3)
+                         .subscribe(
+                               res => { 
+                                   this._isAuth = res.is_auth,
+                                   this._utilisateur = res.utilisateur                               
+                               },
+                               error =>  this._errorMessage = <any>error
+                           );  
+    }
+
+    getRegionsFrance(){
+        this._t_regions = this._localisationService.getAssocRegionsFrance();         
+    }
+    
+    
+    clicked(){
+        console.log("test");
+    }
+    
     /*constructor(private metaService: MetaService) {
         metaService.setTitle('Product page for ');
         metaService.setTag('author', "Test");
