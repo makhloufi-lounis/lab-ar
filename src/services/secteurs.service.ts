@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Localisation } from '../model/localisation.model';
+import { SecteurActivite } from '../model/secteur.model';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/retry';
 
 @Injectable() 
-export class LocalisationsService{
+export class SecteurActiviteService{
     
       
     constructor(private http: Http){}
 
-   
-    getLocalisations(webserviceUrl): Observable<Localisation[]>{ 
-        let localisations:Observable<Localisation[]> = this.http.get(
-            `${webserviceUrl}/localisations/dept`            
+
+    getSecteursActivite(webserviceUrl): Observable<SecteurActivite[]>{  
+        let localisations:Observable<SecteurActivite[]> = this.http.get(
+            `${webserviceUrl}/secteur-activite/commerce`            
         )
         .retry(3)
         .map(this.extractData)
@@ -23,12 +23,10 @@ export class LocalisationsService{
         return localisations;
     }
 
-    
-
     private extractData(res: Response){
           let body = res.json(); 
           return body || {};          
-    } 
+    }
 
     private handleError (error: Response | any) {
         let errMsg: string;

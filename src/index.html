@@ -15,11 +15,16 @@
     <meta name="document-distribution" content="Global">
 
     <link rel="prerender" href="/lazy">
-    <link rel="preload" href="/assets/log_pdc.jpg">
+    <link rel="preload" href="/annuaire-repreneur/annuaire.html/assets/log_pdc.jpg">
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="publisher" href="https://plus.google.com/+Placedescommerces_Achat_Vente_Commerces" />
+
+
+
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.fr"></script>
+
 
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -74,7 +79,6 @@
             margin-bottom: 10px;
         }
     </style>
-
 </head>
 
 <body>
@@ -93,24 +97,8 @@
     <app>
         Loading ...
     </app>
+    <script async src="/annuaire-repreneur/annuaire.html/main.bundle.js"></script>
 
-    <script type='text/javascript'>
-        var date = new Date(),
-            options = {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            };
-        var today = date.toLocaleDateString("fr", options);
-        var firstChar = today.substring(0, 1);
-        firstChar = firstChar.toUpperCase();
-        var tail = today.substring(1);
-        today = firstChar + tail
-        $('#date_affice').html(today);
-    </script>
-    <script async src="/annuaire-repreneur.html/main.bundle.js"></script>
-    <script src="/annuaire-repreneur.html/node_modules/zone.js/dist/zone.js"></script>
 </body>
 
 </html>

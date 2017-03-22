@@ -43,6 +43,7 @@ export class SeoService {
   private _dom: DomAdapter = getDOM();
 
   constructor(@Inject(DOCUMENT) private _document: any) {
+   
   }
 
   /**

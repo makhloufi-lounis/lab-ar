@@ -60,7 +60,7 @@
             <a title="D&eacute;poser une annonce gratuite" [href]="this._isAuth ? '/gestion/annonce.html': '/deposer_annonce.html'">D&eacute;poser une annonce</a>
         </li>
         <li [class]="this._settings.tabPage == 'annuairerepreneur' ? 'home' : ''">
-            <a href="/annuaire-repreneur.html" title="Trouver un repreneur">Trouver un repreneur</a>
+            <a href="/annuaire-repreneur/annuaire.html" title="Trouver un repreneur">Trouver un repreneur</a>
         </li>
         <li>
             <a href="{{ this._config.dns_fusacq }}/annuaire_prestataires" title="Trouver un expert" target="_blank" rel="nofollow">Trouver un expert</a>
@@ -142,8 +142,8 @@
 <!--///Fin navigation Mobile -->
 <!--sous-menu-->
 <div id="sousmenu" class="hidden-xs">
-    <div class="date_jour align-center" id="date_affice">
-
+    <div class="date_jour align-center">
+        {{ this._today | date: 'EEEE d MMMM y' }}
     </div>
     <div>
         <ul>
@@ -281,7 +281,7 @@
 
     <button (click)="clicked()">Click</button>
 
-    <form #f="ngForm" (ngSubmit)="addTodo()">
+    <form #f="ngForm" (ngSubmit)="addTodo()" action="">
         <input name="newTodo" [(ngModel)]="newValue">
         <button>Submit</button>
     </form>
@@ -299,7 +299,10 @@
             <div class="cell">{{todo.value}}</div>
             <div class="cell">{{todo.completed}}</div>
         </div>
+
+        <br/> {{ this._t_departements | json}}
     </div>
+
 
     <!-- FIN GLOBAL -->
     <main>

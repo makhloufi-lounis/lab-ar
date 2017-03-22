@@ -9,7 +9,7 @@ export function getLazyModule() {
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: '', redirectTo: '/annuaire-repreneur.html', pathMatch: 'full' },
+      { path: '', redirectTo: '/annuaire-repreneur/annuaire.html', pathMatch: 'full' },
       { path: 'lazy', loadChildren: getLazyModule }
     ])
   ],

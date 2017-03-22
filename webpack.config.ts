@@ -28,7 +28,7 @@ export var commonConfig = {
   },
   context: __dirname,
   output: {
-    publicPath: '',
+    publicPath: '/annuaire-repreneur/annuaire.html/',
     filename: '[name].bundle.js'
   },
   module: {
@@ -63,7 +63,8 @@ export var clientConfig = {
     __filename: true,
     process: true,
     Buffer: false
-  }
+  },
+  amd: { jQuery: true }
 };
 
 

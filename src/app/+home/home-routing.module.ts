@@ -6,7 +6,7 @@ import { HomeComponent } from './home.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'annuaire-repreneur.html', component: HomeComponent }
+      { path: 'annuaire-repreneur/annuaire.html', component: HomeComponent }
     ])
   ]
 })

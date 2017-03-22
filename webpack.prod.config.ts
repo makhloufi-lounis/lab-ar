@@ -48,6 +48,7 @@ export const commonPlugins = [
 ];
 export const commonConfig = {
   output: {
+    publicPath: '/annuaire-repreneur/annuaire.html/',
     filename: '[name].bundle.js',
     chunkFilename: '[chunkhash].js'
   },

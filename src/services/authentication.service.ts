@@ -5,7 +5,7 @@ import { Utilisateur } from '../model/utilisateur.model';
 import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map'; //ici parceque on importe une fonction
+import 'rxjs/add/operator/map'; 
 
 @Injectable()
 export class AuthenticationService{
@@ -21,8 +21,8 @@ export class AuthenticationService{
     
     isAuth(baseUrl): Observable<any>{
       
-        //console.log(Zone.current.get('req').cookies);
-        this.headers = new Headers({'Cookie' : 'ca='+Zone.current.get('req').cookies.ca});
+       
+       // this.headers = new Headers({'Cookie' : 'ca='+Zone.current.get('req').cookies.ca});
         this.searchParams = new URLSearchParams('');
         this.searchParams.set('test_si_deja_connecte', 'oui');
         this.options =  new RequestOptions({headers: this.headers, search: this.searchParams});
@@ -45,7 +45,6 @@ export class AuthenticationService{
   }
 
   private handleError (error: Response | any) {
-    // In a real world app, you might use a remote logging infrastructure
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';

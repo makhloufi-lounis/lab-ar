@@ -10,6 +10,6 @@
  * ];
  **/
 export const routes: string[] = [
-  'annuaire-repreneur.html',
+  'annuaire-repreneur/annuaire.html',
   'lazy',
 ];
