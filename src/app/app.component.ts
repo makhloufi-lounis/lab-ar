@@ -1,11 +1,15 @@
 import { Component, Directive, ElementRef, Renderer, ChangeDetectionStrategy, ViewEncapsulation, AfterViewInit, Inject } from '@angular/core';
 import { SeoService, MetaDefinition, LinkDefinition, ScriptDefinition } from '../services/seo.service';
 import { ApiService } from '../services/api.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieBackendService } from 'angular2-cookie/services/cookies.backend.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { LocalisationsService } from '../services/localisations.service';
 import { SecteurActiviteService } from '../services/secteurs.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { CookieBackendService } from 'angular2-cookie/services/cookies.backend.service';
+import { VillesService } from '../services/villes.service';
+import { ReplaceAccentsStrategyService } from '../services/chain_filter/replace-accents-strategy.service';
+import { UrlStrategy } from '../services/chain_filter/url-strategy.service';
+
 import { DOCUMENT } from '@angular/platform-browser';
 import { Room } from '../model/room.model';
 import { AppSettings } from './app.settings';
@@ -13,6 +17,7 @@ import { CONFIG } from '../config/local';
 import { Utilisateur } from '../model/utilisateur.model';
 import { Localisation } from '../model/localisation.model';
 import { SecteurActivite } from '../model/secteur.model';
+import { Ville } from '../model/ville.model';
 
 import 'rxjs/add/operator/retry';
 //
@@ -68,17 +73,24 @@ export class AppComponent /*implements AfterViewInit*/{
     private _authenticationService:                   AuthenticationService;
     private _localisationService:                     LocalisationsService;
     private _secteursActiviteService:                 SecteurActiviteService;
+    private _villesService:                           VillesService;
+    private _replaceAccentsStrategyService:           ReplaceAccentsStrategyService;
+    private _urlStrategy:                             UrlStrategy;
     
     private _utilisateur:                             Utilisateur;
-    private _localisation:                            Localisation;   
+    private _localisation:                            Localisation;
+    private _ville:                                   Ville;   
 
     private _today:                                   number;
     private _isAuth :                                 boolean = false;
     private _t_regions:                               Array<Localisation>; 
-    private _t_departements:                          Array<Localisation>;  
+    private _t_departements:                          Array<Localisation>;
+    private _t_grand_villes:                          Array<Ville>; 
+    private _villes:                                  Array<Ville>; 
     private _localisations:                           Array<Localisation>;
-    private _t_secteurs_deux_dimension:               Map<number, Array<any>>;
-    private _secteurs_commerces:                      Array<SecteurActivite>;
+    private _secteurs_pere:                           Array<SecteurActivite>;
+    private _length_secteurs_pere:                    number;
+    private _secteurs:                                Array<SecteurActivite>;
     private _errorMessage:                            string; 
     
     
@@ -95,7 +107,10 @@ export class AppComponent /*implements AfterViewInit*/{
         cookieService : CookieService,
         authenticationService: AuthenticationService, 
         localisationsService : LocalisationsService, 
-        secteursActiviteService: SecteurActiviteService
+        secteursActiviteService: SecteurActiviteService,
+        villesService: VillesService,
+        replaceAccentsStrategyService :ReplaceAccentsStrategyService,
+        urlStrategy: UrlStrategy,
     ) {
        // Initialization of the project environment 
        this._config = CONFIG;
@@ -104,7 +119,10 @@ export class AppComponent /*implements AfterViewInit*/{
        this._seoService = seoService;
        this._authenticationService = authenticationService;
        this._localisationService = localisationsService;
-       this._secteursActiviteService = secteursActiviteService;       
+       this._secteursActiviteService = secteursActiviteService;
+       this._villesService = villesService; 
+       this._replaceAccentsStrategyService = replaceAccentsStrategyService;
+       this._urlStrategy =  urlStrategy;     
        this._utilisateur = new Utilisateur();
        this._localisation = new Localisation();
        this._today = Date.now();
@@ -170,15 +188,10 @@ export class AppComponent /*implements AfterViewInit*/{
      
      this.getLocalisationsFrance(this._config.root_url_ws, Localisation.TYPE_LOCALISATION_REGION);
      this.getLocalisationsFrance(this._config.root_url_ws, Localisation.TYPE_LOCALISATION_DEP);
-     this.getSecteursCommerces(this._config.root_url_ws, SecteurActivite.DIMENTION_DEUX)
-     //this._localisationService.initialize();
+     this.getVillesFrance(this._config.api_commerces.root_url, this._config.api_commerces.key, Ville.TYPE_LOCALISATION_GRAND_VILLE);
+     this.getSecteursCommerces(this._config.api_commerces.root_url, this._config.api_commerces.key, SecteurActivite.TYPE_PERE)
+    
 
-     //this.getRegionsFrance(this._config.root_url_ws);
-
-      // console.log( this._cookieService.get('PHPSESSID'));
-     //console.log('Cookies: ', cookieParser('lounis.placedescommerces.com'));
-     //console.log(Zone.current.get('req').cookies);
-    // this.getCookie('lounis.placedescommerces.com') ;
       //this.roomService.getTopFive().subscribe(rooms => this.rooms)
         /* console.log("teste");
          this.seoService.getTopFive().subscribe(
@@ -207,10 +220,10 @@ export class AppComponent /*implements AfterViewInit*/{
                         localisations =>{
                              switch(type){
                                  case 'region':
-                                     this._t_regions = this.getRegionsFrance(localisations);
+                                     this._t_regions = this._localisationService.getRegionsFrance(localisations);
                                      break;
                                  case 'departement':
-                                     this._t_departements = this.getDepartementFrance(localisations);
+                                     this._t_departements = this._localisationService.getDepartementFrance(localisations);
                                      break;
                                  default:
                                      this._localisations = localisations;
@@ -218,59 +231,39 @@ export class AppComponent /*implements AfterViewInit*/{
                              }
                         }, 
                         error =>  this._errorMessage = <any>error           
-                  );              
+                  ); 
     }
       
-    
-    
-
-    private getRegionsFrance(localisations){
-             let regionFrance : Array<Localisation> = []                      ;
-                if(localisations.length != 0){
-                        for(let localisation of localisations){
-                            if(localisation.id_localisation_pere == "33"){
-                                regionFrance.push(localisation);
+    getVillesFrance(apiCommercesUrl, key, type){
+        this._villesService.getVilles(apiCommercesUrl, key)
+                    .retry(3)
+                    .subscribe(
+                        villes => {
+                            switch(type){
+                                 case 'grand_ville':
+                                    this._t_grand_villes = this._villesService.getListeGrandVilles(villes);
+                                    break;
+                                default:
+                                     this._villes = villes;
+                                     break;
                             }
-                        }
-                }
-                return regionFrance
-    }
-
-    private getDepartementFrance(localisations){  
-        let departementFrance : Array<Localisation> = []; 
-        let t_id_region = [];
-        if(localisations.length != 0){
-                for(let localisation of localisations){
-                    if(localisation.id_localisation_pere == "33"){
-                        let id_region = localisation.id_localisation;
-                        t_id_region.push(id_region);
-                    }
-                }
-                for(let id_region of t_id_region){
-                     for(let localisation of localisations){
-                         let id_localisation_pere = localisation.id_localisation_pere;
-                         let id_dep = localisation.id_localisation
-                         let len = localisation.id_localisation.length;
-                         if(( id_localisation_pere == id_region) && (id_dep.substring(len - 3, len) != "_99")){
-                                 departementFrance.push(localisation);
-                         }
-                     }
-                }
-        }        
-        return departementFrance
+                        },
+                        error  =>  this._errorMessage = <any>error           
+                  ); 
     }
     
-    getSecteursCommerces(webserviceUrl, dim){
-            this._secteursActiviteService.getSecteursActivite(webserviceUrl)
+    getSecteursCommerces(apiCommercesUrl, key, type){
+            this._secteursActiviteService.getSecteursActivite(apiCommercesUrl, key, type)
                     .retry(3)
                     .subscribe(
                         secteurs =>{
-                             switch(dim){
-                                 case 2:
-                                     this._t_secteurs_deux_dimension = this.getArray2DimSecteursCommerce(secteurs);
+                             switch(type){
+                                 case SecteurActivite.TYPE_PERE:
+                                     this._secteurs_pere = secteurs;
+                                     this._length_secteurs_pere = secteurs.length; 
                                      break;                                
                                  default:
-                                     this._secteurs_commerces = secteurs;
+                                     this._secteurs = secteurs;
                                      break;                                     
                              }
                         }, 
@@ -278,41 +271,42 @@ export class AppComponent /*implements AfterViewInit*/{
                   );            
     }
     
-    getArray2DimSecteursCommerce(secteurs){
-        let t_secteurs_commerces:Map <number, any> = new Map();
-        let temp_secteurs_commerces:Map <string, any> = new Map();
-        if(secteurs.length != 0){
-            
-            for(let secteur of secteurs){
-                   /* let t_nom_secteur_activite = [];
-                    let t_children_secteur_activite = [];
-                    let temp_secteurs_commerces = [];*/
-                if(secteur.id_secteur_activite_pere == null){   
-                    temp_secteurs_commerces.set('name', secteur.nom_secteur_activite);
-                    temp_secteurs_commerces.set('children', []);             
-                   /* t_nom_secteur_activite.push('name', secteur.nom_secteur_activite);
-                    t_children_secteur_activite.push('children', []);
-                    temp_secteurs_commerces.push(t_nom_secteur_activite);
-                    temp_secteurs_commerces.push(t_children_secteur_activite);
-                    t_secteurs_commerces.set(secteur.id_secteur_activite, temp_secteurs_commerces);*/
-                   /* t_secteurs_commerces[secteur.id_secteur_activite]["children"] = [];*/
-                   t_secteurs_commerces.set(secteur.id_secteur_activite, temp_secteurs_commerces);
-                }else{                    
-                    let t_nom_secteur_activite = [];
-                    t_nom_secteur_activite.push(secteur.id_secteur_activite, secteur.nom_secteur_activite);
-                    temp_secteurs_commerces.set('children', t_nom_secteur_activite);
-                    t_secteurs_commerces.set(secteur.id_secteur_activite_pere, temp_secteurs_commerces);
-                    /*t_children_secteur_activite.push('children', t_nom_secteur_activite);
-                    t_secteurs_commerces.set(secteur.id_secteur_activite_pere, t_children_secteur_activite);*/
-                }
-                
-            }
-            console.log(t_secteurs_commerces);
+    getNomAffiche(denomination_liste, nom_secteur_activite){
+        let strReturned = 'Vente ';
+        if(denomination_liste == null || denomination_liste == ""){
+            strReturned += nom_secteur_activite;
+        }else{
+            strReturned += denomination_liste;
         }
-
-        return t_secteurs_commerces;
+        
+        return strReturned;
     }
 
+    getTermeLocRegion(region){
+        let termLocalisation: string = "";
+        let idRegion = region.id_localisation;
+        let nomLocalisation = this.getNomRegion(idRegion, region.nom_localisation);
+        if(idRegion.match(/^33_[0-9]+_99$/)){
+            nomLocalisation = Localisation.TYPE_LOCALISATION_CONFIDENTIEL;
+        }
+        if(idRegion != "" && idRegion.match(/^33_[0-9_AB]+$/)){
+            termLocalisation = `${this._localisationService.getPrticuleDansCorrespondantLocalisation(idRegion)} ${nomLocalisation}`;
+        }
+        return termLocalisation;
+    }
+
+    getNomRegion(id_region, nom_region){
+        if(id_region == "33_21"){
+            return "PACA";
+        }else{
+            return nom_region;
+        }
+    }
+
+    getComplementUrl(chain){
+       return  this._urlStrategy.filter(chain);
+    }
+    
     clicked(){
         console.log("test");
     }
@@ -325,6 +319,17 @@ export class AppComponent /*implements AfterViewInit*/{
          console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     }
     
+
+    hack(val) {
+        if(val != undefined && val != 'undefined' && val!= null){
+          console.log('Before:');
+          console.log(val);
+          val = Array.from(val);
+          console.log('After:');
+          console.log(val);
+          return val;
+        }
+    }
     /*constructor(private metaService: MetaService) {
         metaService.setTitle('Product page for ');
         metaService.setTag('author', "Test");

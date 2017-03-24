@@ -7,3 +7,7 @@
     background: url(http://cdn.placedescommerces.com/images/xline_bleu.png.pagespeed.ic.CE12VlEA7A.webp) left top repeat;
     margin: 0 0 30px 0;
 }
+
+#footer {
+    min-height: 105px;
+}

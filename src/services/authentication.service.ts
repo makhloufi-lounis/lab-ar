@@ -10,9 +10,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthenticationService{
    
-    private headers        :Headers;
-    private options        :RequestOptions ;
-    private searchParams   :URLSearchParams;
+    private _headers        :Headers;
+    private _options        :RequestOptions ;
+    private _searchParams   :URLSearchParams;
 
 
     constructor(private http: Http){
@@ -23,12 +23,12 @@ export class AuthenticationService{
       
        
        // this.headers = new Headers({'Cookie' : 'ca='+Zone.current.get('req').cookies.ca});
-        this.searchParams = new URLSearchParams('');
-        this.searchParams.set('test_si_deja_connecte', 'oui');
-        this.options =  new RequestOptions({headers: this.headers, search: this.searchParams});
+        this._searchParams = new URLSearchParams('');
+        this._searchParams.set('test_si_deja_connecte', 'oui');
+        this._options =  new RequestOptions({headers: this._headers, search: this._searchParams});
         let obj :Observable<any> = this.http.get(
             `${baseUrl}/verif.html`,
-            this.options             
+             this._options             
         )
         .map(this.extractData)
         .catch(this.handleError);

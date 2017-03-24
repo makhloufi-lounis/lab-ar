@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { SecteurActivite } from '../model/secteur.model';
+import { Ville } from '../model/ville.model';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/retry';
 
 @Injectable() 
-export class SecteurActiviteService{
+export class VillesService{
     
     private _headers        :Headers;
     private _options        :RequestOptions ;
@@ -15,48 +15,48 @@ export class SecteurActiviteService{
       
     constructor(private http: Http){}
 
-
-    getSecteursActivite(apiCommercesUrl, key, type): Observable<SecteurActivite[]>{  
+   
+    getVilles(apiCommercesUrl, key): Observable<Ville[]>{ 
         this._headers = new Headers();
         this._headers.append('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');
         this._headers.append('Accept','application/json');
-        this._headers.append('authorization',`Basic ${key}`); 
-        this._searchParams = new URLSearchParams('');
-        this._searchParams.append('type', type);
+        this._headers.append('authorization',`Basic ${key}`);        
         this._options =  new RequestOptions({headers: this._headers, search: this._searchParams});
-        let localisations:Observable<SecteurActivite[]> = this.http.get(
-            `${apiCommercesUrl}/secteur-activite`,
-            this._options            
+        let villes:Observable<Ville[]> = this.http.get(
+            `${apiCommercesUrl}/ville`,
+             this._options            
         )
         .map(this.extractData)
         .catch(this.handleError);     
-        return localisations;
+        return villes;
     }
+
+    
 
     private extractData(res: Response){
           let body = res.json(); 
           return body || {};          
+    } 
+
+    public getListeGrandVilles(villes){
+        let grandVilles : Array<Ville> = []                      ;
+        if(villes.length != 0){
+            for(let ville of villes){
+                if(ville.id_ville != "0" && ville.id_ville.length != 0){
+                    let nom_majuscule = ville.nom_majuscule;
+                    let len = nom_majuscule.length;
+                    if(nom_majuscule.substring(len - 3, len) != 'EME' && nom_majuscule.substring(len - 3, len) != '1ER'){
+                        grandVilles.push(ville);
+                    }
+                }
+            }
+        } 
+        return grandVilles
     }
-
-    public getArray2DimSecteursCommerce(secteurs){  
-         
-
-         if(secteurs.length != 0){             
-              
-              console.log('Before:');
-              console.log(secteurs);
-              let val = Array.from(secteurs);
-              console.log('After:');
-              console.log(val);
-              return val;
-        }
-       
-         
-         //return t_secteurs_commerces;
-
-    }
+  
 
     private handleError (error: Response | any) {
+        console.error(error);
         let errMsg: string;
         if (error instanceof Response) {
           const body = error.json() || '';

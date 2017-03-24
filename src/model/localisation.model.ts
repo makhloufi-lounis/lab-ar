@@ -2,7 +2,7 @@ export class Localisation{
    
     static TYPE_LOCALISATION_REGION = 'region';
     static TYPE_LOCALISATION_DEP = 'departement';
-
+    static TYPE_LOCALISATION_CONFIDENTIEL    = 'Confidentiel';
     private _id_localisation      : string;
     private _id_localisation_pere : string;
     private _nom_localisation     : string;

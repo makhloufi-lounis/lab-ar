@@ -11,6 +11,9 @@ import { ApiService } from '../services/api.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { LocalisationsService } from '../services/localisations.service';
 import { SecteurActiviteService } from '../services/secteurs.service';
+import { VillesService } from '../services/villes.service';
+import { ReplaceAccentsStrategyService } from '../services/chain_filter/replace-accents-strategy.service';
+import { UrlStrategy } from '../services/chain_filter/url-strategy.service';
 
 import { MetaService } from 'ng2-meta';
 import { Meta } from '../angular2-meta';
@@ -26,10 +29,21 @@ import { SharedModule } from './shared/shared.module';
 import { LOCALE_ID } from '@angular/core';
 @NgModule({
   declarations: [ AppComponent, XLargeDirective],
-  providers: [SeoService, ApiService, AuthenticationService, Title, MetaService, Meta, LocalisationsService, SecteurActiviteService,
+  providers: [
+    ApiService, 
+    Title, 
+    MetaService, 
+    Meta,
+    SeoService,
+    AuthenticationService,  
+    LocalisationsService, 
+    SecteurActiviteService,
+    VillesService,
+    ReplaceAccentsStrategyService,
+    UrlStrategy,
     { provide: LOCALE_ID, useValue: "fr" },
     { provide: CookieService, useClass: CookieBackendService }
-     ],
+  ],
   imports: [
     SharedModule,
     HomeModule,

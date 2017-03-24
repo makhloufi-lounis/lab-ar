@@ -252,10 +252,92 @@
         <!-- Fin CONTENU CENTRAL -->
         <!-- FOOTER -->
         <div id="footer" class="hidden-xs">
-            <div class="column1" style="padding-left:15px;">
+            <div class="column1" style="padding-left:15px;"></div>
+            <div class="column" style="width:150px;">
+                <ul>
+                    <li *ngFor="let secteurs_pere of this._secteurs_pere | slice:0:this._length_secteurs_pere/2; let i = index;">
+                        <a class="lien_secteur" attr.id-secteur="{{i}}" title="{{this.getNomAffiche(secteurs_pere.denomination_liste, secteurs_pere.nom_secteur_activite)}}" href="{{ this._config.dns_placedescommerces }}/vente-{{this.getComplementUrl(secteurs_pere.nom_secteur_activite)}}"><!--<?php echo Pdc_String::reecriture_pour_url($secteurs[" name "], "- "); ?>,s<?php echo $id_secteur; ?>.html">-->
+                                {{secteurs_pere.nom_secteur_activite }}
+                            </a>
+                    </li>
 
+                </ul>
             </div>
+            <div class="column" style="width:145px;">
+                <ul>
+                    <li *ngFor="let secteurs_pere of this._secteurs_pere | slice:this._length_secteurs_pere/2:this._length_secteurs_pere; let i = index;">
+                        <a class="lien_secteur" attr.id-secteur="{{i}}" title="{{this.getNomAffiche(secteurs_pere.denomination_liste, secteurs_pere.nom_secteur_activite)}}" href="{{ this._config.dns_placedescommerces}}/vente-"><!--<?php echo Pdc_String::reecriture_pour_url($secteurs[" name "], "- "); ?>,s<?php echo $id_secteur; ?>.html">-->
+                                {{secteurs_pere.nom_secteur_activite }}
+                            </a>
+                    </li>
 
+                </ul>
+            </div>
+            <div style="float:left;background-color: #FFF;height: 80px;margin-top: 15px;margin-left: 10px;width: 1px;"></div>
+            <div class="column" style="width:81px;padding-left:15px;">
+                <ul>
+                    <li *ngFor="let region of this._t_regions | slice:0:6">
+                        <a title="Vente de commerces {{this.getTermeLocRegion(region)}}" href="{{ this._config.dns_placedescommerces }}/vente-commerce-" class="lien_region" attr.id-region="{{region.id_localisation}}">
+                            <!--<?php echo Pdc_String::reecriture_pour_url($nom_localisation, " - "); ?>,r<?php echo $id_region; ?>.html-->
+                            {{ this.getNomRegion(region.id_localisation, region.nom_localisation)}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="column" style="width:96px;padding-left:15px;">
+                <ul>
+                    <li *ngFor="let region of this._t_regions | slice:6:12">
+                        <a title="Vente de commerces {{this.getTermeLocRegion(region)}}" href="{{ this._config.dns_placedescommerces }}/vente-commerce-" class="lien_region" attr.id-region="{{region.id_localisation}}">
+                            <!--<?php echo Pdc_String::reecriture_pour_url($nom_localisation, " - "); ?>,r<?php echo $id_region; ?>.html-->
+                            {{ this.getNomRegion(region.id_localisation, region.nom_localisation)}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="column" style="width:99px;padding-left:15px;">
+                <ul>
+                    <li *ngFor="let region of this._t_regions | slice:12:18">
+                        <a title="Vente de commerces {{this.getTermeLocRegion(region)}}" href="{{ this._config.dns_placedescommerces }}/vente-commerce-" class="lien_region" attr.id-region="{{region.id_localisation}}">
+                            <!--<?php echo Pdc_String::reecriture_pour_url($nom_localisation, " - "); ?>,r<?php echo $id_region; ?>.html-->
+                            {{ this.getNomRegion(region.id_localisation, region.nom_localisation)}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="column" style="width:95px;padding-left:15px;">
+                <ul>
+                    <li *ngFor="let region of this._t_regions | slice:18:24">
+                        <a title="Vente de commerces {{this.getTermeLocRegion(region)}}" href="{{ this._config.dns_placedescommerces }}/vente-commerce-" class="lien_region" attr.id-region="{{region.id_localisation}}">
+                            <!--<?php echo Pdc_String::reecriture_pour_url($nom_localisation, " - "); ?>,r<?php echo $id_region; ?>.html-->
+                            {{ this.getNomRegion(region.id_localisation, region.nom_localisation)}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ this._config.dns_placedescommerces }}/vente_commerce_ville.html" title="Vente de commerces dans une ville" class="lien_ville" attr.id-region="33_24">Toutes les villes</a>
+                    </li>
+                </ul>
+            </div>
+            <div style="float:left;background-color: #FFF;height: 80px;margin-top: 15px;margin-left:-5px;width: 1px;"></div>
+            <div class="column" style="padding-left:10px;width:90px;">
+                <ul>
+                    <li><a href="{{ this._config.dns_placedescommerces }}_a_vendre_village.html" title="Vente de commerces dans un village, à la campagne"> Village </a></li>
+                    <li><a href="{{ this._config.dns_placedescommerces }}_a_vendre_centre_ville.html" title="Vente de commerces en centre ville"> Centre ville </a></li>
+                    <li><a href="{{ this._config.dns_placedescommerces }}_a_vendre_bord_de_mer.html" title="Vente de commerces en bord de mer"> Bord de mer </a></li>
+                    <li><a title="Vente de commerces dans une station balnéaire" href="{{ this._config.dns_placedescommerces }}_a_vendre_station_balneaire.html"> Station balnéaire </a></li>
+                    <li><a href="{{ this._config.dns_placedescommerces }}_a_vendre_bord_de_riviere_ou_lac.html" title="Vente de commerces en bord de rivière ou lac"> Rivière ou lac </a></li>
+                    <li><a href="{{ this._config.dns_placedescommerces }}_a_vendre_montagne.html" title="Vente de commerces en montagne"> Montagne</a></li>
+                </ul>
+            </div>
+            <div class="column">
+                <ul>
+                    <li><a href="{{ this._config.dns_placedescommerces }}_a_vendre_sport_hiver.html" title="Vente de commerces dans une station de ski / sports d'hiver"> Station de ski / sports d'hiver </a></li>
+                    <li><a href="{{ this._config.dns_placedescommerces }}_a_vendre_number1.html" title="Vente de commerces en emplacement numéro 1"> Emplacement numéro 1 </a></li>
+                    <li><a href="{{ this._config.dns_placedescommerces }}_a_vendre_centre_commercial.html" title="Vente de commerces en centre / zone commercial(e)"> Centre / zone commerciale </a></li>
+                    <li><a title="Commerces à reprendre en location gérance" href="{{ this._config.dns_placedescommerces }}_a_vendre_location_gerance.html"> Location gérance  </a></li>
+                    <li><a title="Location de locaux commerciaux sans droit au bail" href="{{ this._config.dns_placedescommerces }}_a_vendre_location_sans_droit_au_bail.html"> Location sans droit au bail </a></li>
+                    <li><a href="{{ this._config.dns_placedescommerces }}_a_vendre_touristique.html" title="Vente de commerces en zone touristique"> Zone touristique</a></li>
+                </ul>
+            </div>
         </div>
         <!-- FIN FOOTER -->
         <!-- FOOTER MENU-->
@@ -278,31 +360,6 @@
         </div>
         <!-- FIN FOOTER MENU-->
     </div>
-
-    <button (click)="clicked()">Click</button>
-
-    <form #f="ngForm" (ngSubmit)="addTodo()" action="">
-        <input name="newTodo" [(ngModel)]="newValue">
-        <button>Submit</button>
-    </form>
-
-    <div class="table">
-        <div class="row header">
-            <div class="cell">Id</div>
-            <div class="cell">Created at</div>
-            <div class="cell">Value</div>
-            <div class="cell">Completed</div>
-        </div>
-        <div class="row" *ngFor="let todo of todos">
-            <div class="cell">{{todo.id}}</div>
-            <div class="cell">{{todo.created_at | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
-            <div class="cell">{{todo.value}}</div>
-            <div class="cell">{{todo.completed}}</div>
-        </div>
-
-        <br/> {{ this._t_departements | json}}
-    </div>
-
 
     <!-- FIN GLOBAL -->
     <main>

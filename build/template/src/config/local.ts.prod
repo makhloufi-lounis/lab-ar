@@ -5,8 +5,8 @@ const BASE_CONFIG = {
   cdn_placedesfranchises: "http://cdn.placedesfranchises.com",
   dns_fusacq: "http://www.fusacq.com",
   cdn_fusacq: "http://cdn.fusacq.com",
-  api_fusacq: {root_url:"http://www.api.fusacq.com", key:"bG91bmlzOm1vcmUuZnVzaW9u"},
-  api_commerces: {root_url:"http://www.api.commerces.com", key:"bG91bmlzOm1vcmUuZnVzaW9u"},
+  api_fusacq: {root_url:"http://www.api.fusacq.com", key:"key"},
+  api_commerces: {root_url:"http://www.api.commerces.com", key:"key"},
   root_url_ws: "http://ws.fusacq.com",
 };
 

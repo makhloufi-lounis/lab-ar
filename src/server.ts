@@ -46,7 +46,7 @@ app.set('views', __dirname);
 app.set('view engine', 'html');
 app.set('json spaces', 2);
 
-app.use(cookieParser('http://lounis.placedescommerces.com/'));
+app.use(cookieParser('http://localhost:8089'));
 app.use(bodyParser.json());
 app.use(compression());
 
@@ -90,7 +90,7 @@ function ngApp(req, res) {
       preboot: false,
       baseUrl: '/',
       requestUrl: req.originalUrl,
-      originUrl: `http://lounis.placedescommerces.com:${ app.get('port') }`
+      originUrl: `http://localhost:${ app.get('port') }`
     });
   });
   
@@ -114,6 +114,6 @@ app.get('*', function(req, res) {
 
 // Server
 let server = app.listen(app.get('port'), () => {
-  console.log(`Listening on: http://lounis.placedescommerces.com:${server.address().port}`);
+  console.log(`Listening on: http://localhost:${server.address().port}`);
 });
 
